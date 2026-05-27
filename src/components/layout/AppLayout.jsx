@@ -1,4 +1,5 @@
 import { Outlet, NavLink } from 'react-router-dom';
+import BrandMark from '@/components/common/BrandMark';
 
 /* ─── SVG icon components (outlined) ────────────────── */
 const tabIcons = {
@@ -53,8 +54,12 @@ const tabs = [
 export default function AppLayout() {
   return (
     <div className="flex flex-col h-screen bg-surface">
+      <header className="fixed top-0 inset-x-0 z-40 h-14 glass-strong safe-top flex items-center justify-center px-4 border-b border-surface-border">
+        <BrandMark imageSize={22} textSize={18} />
+      </header>
+
       {/* Content area — scrollable, sits above tab bar */}
-      <main className="flex-1 overflow-auto pb-20">
+      <main className="flex-1 overflow-auto pt-14 pb-20">
         <Outlet />
       </main>
 

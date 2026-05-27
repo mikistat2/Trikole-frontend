@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { authApi } from '@/api';
 import { useAuthStore } from '@/store/auth.store';
 import { useGoogleLogin } from '@react-oauth/google';
+import BrandMark from '@/components/common/BrandMark';
 
 const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
@@ -60,9 +61,7 @@ export default function LoginPage() {
         <button onClick={() => navigate('/')} className="absolute top-[14px] right-[14px] bg-white/10 text-[#f0ece4]/65 w-[30px] h-[30px] rounded-full text-[12px] flex items-center justify-center hover:bg-white/20 transition-colors">✕</button>
 
         <div className="flex flex-col items-center gap-[18px] mb-6">
-          <span className="font-['Bebas_Neue','Barlow',sans-serif] text-[26px] font-black tracking-[0.02em] text-[#f0ece4]">
-            Trickole
-          </span>
+          <BrandMark imageSize={60} textSize={30} />
         </div>
 
         <p className="text-[18px] font-extrabold tracking-[-0.02em] text-center mb-[18px]">Welcome back, Racer</p>

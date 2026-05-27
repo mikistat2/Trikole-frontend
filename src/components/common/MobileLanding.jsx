@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import BrandMark from '@/components/common/BrandMark';
 
 // ── 3 slides ──────────────────────────────────────────────────────────────────
 const SLIDES = [
@@ -345,9 +346,9 @@ export default function MobileLanding({ onGetStarted, onLogin }) {
           zIndex: 10,
         }}
       >
-        <span style={{ fontSize: 38, letterSpacing: 1, margineBottom: 7 }}>
-          TRIC<span style={{ color: "#e8621a" }}>KOLE</span>
-        </span>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <BrandMark imageSize={80} textSize={30} />
+        </div>
         <button
           onClick={onLogin}
           style={{

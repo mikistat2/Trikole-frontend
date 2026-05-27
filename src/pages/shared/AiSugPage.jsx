@@ -105,7 +105,7 @@ export default function AiSugPage() {
       {loading && !results.length && (
         <div className="py-12 flex flex-col items-center justify-center gap-4 animate-fade-in">
           <div className="w-10 h-10 border-4 border-brand/20 border-t-brand rounded-full animate-spin" />
-          <p className="text-sm text-text-muted">Analyzing your request with Gemini...</p>
+          <p className="text-sm text-text-muted">Analyzing and parsing your request ...</p>
         </div>
       )}
 

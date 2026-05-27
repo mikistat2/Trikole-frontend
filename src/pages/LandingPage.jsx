@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { IS_APP } from "@/utils/platform";
 import MobileLanding from "@/components/common/MobileLanding";
+import BrandMark from "@/components/common/BrandMark";
 
 function useMediaQuery(query) {
   const getMatches = () => {
@@ -434,12 +435,7 @@ function AppProfile({ onAuth }) {
 
 /* ── TINY COMPONENTS ─────────────────────────────────── */
 function Logo({ small }) {
-  return (
-    <span style={{ fontFamily:"'Bebas Neue','Barlow',sans-serif", fontSize: small ? 20 : 30, fontWeight:900, letterSpacing:"0.02em", color:"#f0ece4", display:"inline-flex", alignItems:"center", gap:6 }}>
-      <span style={{ display:"inline-block" }}>Trick</span>
-      <span style={{ display:"inline-block", color: "#e85d24" }}>ole</span>
-    </span>
-  );
+  return <BrandMark imageSize={small ? 18 : 24} textSize={small ? 20 : 30} />;
 }
 function Eyebrow({ children }) {
   return <p style={{ fontSize:11, fontWeight:700, letterSpacing:"0.18em", textTransform:"uppercase", color:"#e85d24", marginBottom:12 }}>{children}</p>;

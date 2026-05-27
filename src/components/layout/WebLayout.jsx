@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Outlet, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/store/auth.store';
+import BrandMark from '@/components/common/BrandMark';
 
 /* ─── SVG icon components ────────────────────────────── */
 const icons = {
@@ -122,9 +123,7 @@ export default function WebLayout() {
           {icons.menu}
         </button>
         <div className="flex-1 flex items-center justify-center">
-          <span className="text-base font-extrabold tracking-tight text-text-primary">
-            Trick<span className="text-brand">ole</span>
-          </span>
+          <BrandMark imageSize={32} textSize={20} />
         </div>
         <div className="w-10" /> {/* Spacer for symmetry */}
       </header>
@@ -152,9 +151,11 @@ export default function WebLayout() {
       >
         {/* Brand */}
         <div className="px-4 py-5 border-b border-surface-border flex items-center gap-3">
-          <span className={`text-base font-extrabold tracking-tight text-text-primary transition-all duration-300 whitespace-nowrap ${collapsed ? 'md:opacity-0 md:w-0 md:overflow-hidden' : 'opacity-100'}`}>
-            Trick<span className="text-brand">ole</span>
-          </span>
+          <BrandMark
+            imageSize={24}
+            textSize={18}
+            className={`transition-all duration-300 whitespace-nowrap ${collapsed ? 'md:opacity-0 md:w-0 md:overflow-hidden' : 'opacity-100'}`}
+          />
 
           {/* Desktop collapse button */}
           <button
