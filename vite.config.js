@@ -6,7 +6,10 @@ function normalizeProxyTarget(rawUrl) {
   const trimmed = String(rawUrl || '').trim();
   if (!trimmed) return 'http://localhost:5000';
 
-  return trimmed.replace(/\/api\/?$/, '').replace(/\/$/, '');
+  const urlMatch = trimmed.match(/https?:\/\/[^\s'"]+/i);
+  const candidate = urlMatch ? urlMatch[0] : trimmed;
+
+  return candidate.replace(/\/api\/?$/, '').replace(/\/$/, '');
 }
 
 export default defineConfig(({ mode }) => {

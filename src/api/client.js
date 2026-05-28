@@ -5,11 +5,14 @@ function normalizeApiBaseUrl(rawUrl) {
   const trimmed = String(rawUrl || '').trim();
   if (!trimmed) return '/api';
 
-  if (/^https?:\/\//i.test(trimmed)) {
-    return trimmed.replace(/\/api\/?$/, '').replace(/\/$/, '') + '/api';
+  const urlMatch = trimmed.match(/https?:\/\/[^\s'"]+/i);
+  const candidate = urlMatch ? urlMatch[0] : trimmed;
+
+  if (/^https?:\/\//i.test(candidate)) {
+    return candidate.replace(/\/api\/?$/, '').replace(/\/$/, '') + '/api';
   }
 
-  return trimmed.replace(/\/api\/?$/, '').replace(/\/$/, '') + '/api';
+  return candidate.replace(/\/api\/?$/, '').replace(/\/$/, '') + '/api';
 }
 
 const api = axios.create({
