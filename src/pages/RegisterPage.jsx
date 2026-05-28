@@ -15,6 +15,14 @@ export default function RegisterPage() {
   const { setAuth } = useAuthStore();
   const navigate = useNavigate();
 
+  function getAuthErrorMessage(err, fallback) {
+    if (err.response?.status === 405) {
+      return 'Registration request hit the frontend instead of the backend. Set VITE_API_URL in Vercel to your deployed API URL.';
+    }
+
+    return err.response?.data?.error || err.message || fallback;
+  }
+
   const handleGoogleClick = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       setGoogleLoading(true);
@@ -24,7 +32,7 @@ export default function RegisterPage() {
         setAuth(res.data.user, res.data.token);
         navigate('/');
       } catch (err) {
-        setError(err.response?.data?.error || 'Google sign-in failed');
+        setError(getAuthErrorMessage(err, 'Google sign-in failed'));
       } finally {
         setGoogleLoading(false);
       }
@@ -43,7 +51,7 @@ export default function RegisterPage() {
       setAuth(res.data.user, res.data.token);
       navigate('/');
     } catch (err) {
-      setError(err.response?.data?.error || 'Registration failed');
+      setError(getAuthErrorMessage(err, 'Registration failed'));
     } finally {
       setLoading(false);
     }
