@@ -56,25 +56,45 @@ export default function MovieDetailsModal({ movie, onClose, isSeries = false }) 
       
       <div className="fixed inset-4 sm:inset-auto sm:top-1/2 sm:left-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 sm:w-full sm:max-w-3xl z-50 bg-surface-raised rounded-2xl border border-surface-border overflow-hidden animate-slide-up flex flex-col sm:max-h-[85vh]">
         
-        {/* Header/Backdrop */}
-        <div className="relative h-48 sm:h-64 shrink-0 bg-surface-card">
-          {backdropUrl ? (
-            <img src={backdropUrl} alt={title} className="w-full h-full object-cover opacity-50" />
-          ) : (
-            <div className="w-full h-full bg-surface-subtle" />
-          )}
-          <div className="absolute inset-0 bg-gradient-to-t from-surface-raised via-surface-raised/50 to-transparent" />
-          
-          <button 
-            onClick={onClose}
-            className="absolute top-4 right-4 w-8 h-8 rounded-full bg-black/50 text-white flex items-center justify-center hover:bg-black/70 transition-colors z-10 backdrop-blur-md"
-          >
-            ✕
-          </button>
-        </div>
+        {/* Header/Backdrop or Trailer */}
+        {trailer ? (
+          <div className="relative aspect-video w-full shrink-0 bg-black">
+            <iframe 
+              width="100%" 
+              height="100%" 
+              src={`https://www.youtube.com/embed/${trailer.key}`} 
+              title="Trailer"
+              frameBorder="0" 
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+              allowFullScreen
+            ></iframe>
+            <button 
+              onClick={onClose}
+              className="absolute top-4 right-4 w-8 h-8 rounded-full bg-black/50 text-white flex items-center justify-center hover:bg-black/70 transition-colors z-10 backdrop-blur-md"
+            >
+              ✕
+            </button>
+          </div>
+        ) : (
+          <div className="relative h-48 sm:h-64 shrink-0 bg-surface-card">
+            {backdropUrl ? (
+              <img src={backdropUrl} alt={title} className="w-full h-full object-cover opacity-50" />
+            ) : (
+              <div className="w-full h-full bg-surface-subtle" />
+            )}
+            <div className="absolute inset-0 bg-gradient-to-t from-surface-raised via-surface-raised/50 to-transparent" />
+            
+            <button 
+              onClick={onClose}
+              className="absolute top-4 right-4 w-8 h-8 rounded-full bg-black/50 text-white flex items-center justify-center hover:bg-black/70 transition-colors z-10 backdrop-blur-md"
+            >
+              ✕
+            </button>
+          </div>
+        )}
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto no-scrollbar relative -mt-20 sm:-mt-24 pb-6">
+        <div className={`flex-1 overflow-y-auto no-scrollbar relative pb-6 ${trailer ? 'mt-0 pt-6' : '-mt-20 sm:-mt-24'}`}>
           <div className="px-4 sm:px-6 flex flex-col sm:flex-row gap-6">
             
             {/* Poster */}
@@ -87,7 +107,7 @@ export default function MovieDetailsModal({ movie, onClose, isSeries = false }) 
             </div>
 
             {/* Info */}
-            <div className="flex-1 pt-2 sm:pt-24 flex flex-col gap-4">
+            <div className={`flex-1 flex flex-col gap-4 ${trailer ? 'pt-0' : 'pt-2 sm:pt-24'}`}>
               <div>
                 <h2 className="text-2xl sm:text-3xl font-bold text-text-primary leading-tight">
                   {title} <span className="text-text-muted font-normal text-lg sm:text-xl">({year})</span>
@@ -164,24 +184,6 @@ export default function MovieDetailsModal({ movie, onClose, isSeries = false }) 
                         <div className="text-[10px] text-text-muted truncate">{person.character}</div>
                       </div>
                     ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Trailer */}
-              {trailer && (
-                <div>
-                  <h3 className="text-lg font-semibold text-text-primary mb-3 px-4 sm:px-6">Trailer</h3>
-                  <div className="aspect-video sm:rounded-xl overflow-hidden bg-black sm:mx-6">
-                    <iframe 
-                      width="100%" 
-                      height="100%" 
-                      src={`https://www.youtube.com/embed/${trailer.key}`} 
-                      title="Trailer"
-                      frameBorder="0" 
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                      allowFullScreen
-                    ></iframe>
                   </div>
                 </div>
               )}
