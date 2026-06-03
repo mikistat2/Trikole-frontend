@@ -104,7 +104,14 @@ export default function LandingPage() {
   const navigate = useNavigate();
   const isMobileWeb = useMediaQuery("(max-width: 640px)");
 
-  if (IS_APP) return <AppLandingPage />;
+  if (IS_APP) {
+    return (
+      <MobileLanding
+        onGetStarted={() => navigate("/register")}
+        onLogin={() => navigate("/login")}
+      />
+    );
+  }
 
   if (isMobileWeb) {
     return (
@@ -170,7 +177,24 @@ function WebLandingPage() {
             </p>
             <div style={S.heroCtas} className="fade-up d3">
               <button onClick={() => openAuth("register")} style={S.ctaPrimary}>Start Racing Free →</button>
-              <a href="#mobile" style={S.ctaSecondary}><AndroidIcon />Download App</a>
+              <a
+                href="/Trickole.apk"
+                download="Trickole.apk"
+                style={{
+                  ...S.ctaSecondary,
+                  background: "linear-gradient(160deg, #1c1c1e 0%, #111113 100%)",
+                  border: "1px solid rgba(255,255,255,0.14)",
+                  boxShadow: "0 4px 12px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.06)",
+                  gap: 10,
+                  padding: "10px 18px",
+                }}
+              >
+                <GooglePlayIcon size={22} />
+                <div style={{ display:"flex", flexDirection:"column", lineHeight:1.1, gap:1 }}>
+                  <span style={{ fontFamily:"Inter,sans-serif", fontSize:9, letterSpacing:0.5, color:"rgba(255,255,255,0.6)", fontWeight:500 }}>GET IT ON</span>
+                  <span style={{ fontFamily:"Inter,sans-serif", fontSize:15, fontWeight:700, color:"#fff", letterSpacing:0.2 }}>Google Play</span>
+                </div>
+              </a>
             </div>
             <div style={S.heroStats} className="fade-up d4">
               {[["120 +","Racers"],["2.4M","Films Logged"],["11 +","Countries"]].map(([n,l]) => (
@@ -458,8 +482,16 @@ function AiIcon({ size = 30 }) {
 function MobileIcon({ size = 30 }) {
   return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="7" y="3" width="10" height="18" rx="2.2" /><path d="M10 6h4" /><path d="M11 18h2" /><path d="M9 9h6M9 12h6M9 15h6" /></svg>;
 }
-function AndroidIcon({ size = 18 }) {
-  return <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" style={{ marginRight:8, flexShrink:0 }}><path d="M3.18 23.76A1.12 1.12 0 0 0 4.1 24c.36 0 .72-.09 1.05-.27L20 15.28l-3.57-3.57-13.25 11.05ZM1.12 1.15A2.12 2.12 0 0 0 .75 2.28v19.44a2.12 2.12 0 0 0 .37 1.13L12.48 12 1.12 1.15ZM20.66 10.38l-2.82-1.64-4 3.26 4 4 2.83-1.64a2.26 2.26 0 0 0 0-4.02ZM4.1.27A2.26 2.26 0 0 0 3.18 0L16.43 13.29l3.57-3.57L5.15.54A2.22 2.22 0 0 0 4.1.27Z"/></svg>;
+/** 4-colour Google Play Store icon */
+function GooglePlayIcon({ size = 20 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 512 512" aria-hidden="true" focusable="false" style={{ display:"block", flexShrink:0, marginRight:8 }}>
+      <path d="M48 28.8 283.2 264 48 499.2A32 32 0 0 1 32 472V40A32 32 0 0 1 48 28.8Z" fill="#00C4FF" />
+      <path d="M368 196l62.4 36.8L48 499.2A32 32 0 0 1 32 472L283.2 264Z" fill="#00E676" />
+      <path d="M368 316l62.4-36.8L48 28.8A32 32 0 0 1 32 40L283.2 264Z" fill="#FFCA28" />
+      <path d="M430.4 232.8L480 261.6a32 32 0 0 1 0 55.2l-49.6 28.8L283.2 264Z" fill="#FF3D00" />
+    </svg>
+  );
 }
 function FilmStrip({ bottom }) {
   return (

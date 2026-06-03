@@ -17,7 +17,7 @@ function normalizeApiBaseUrl(rawUrl) {
 
 const api = axios.create({
   baseURL: normalizeApiBaseUrl(import.meta.env.VITE_API_URL),
-  timeout: 15000,
+  timeout: 30000,
 });
 
 if (import.meta.env.PROD && !import.meta.env.VITE_API_URL) {

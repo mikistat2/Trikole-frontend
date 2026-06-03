@@ -64,6 +64,41 @@ function RocketIcon({ size = 56 }) {
   );
 }
 
+/** Pixel-accurate Google Play Store icon (4-colour) */
+function GooglePlayIcon({ size = 22 }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 512 512"
+      aria-hidden="true"
+      focusable="false"
+      style={{ display: "block", flexShrink: 0 }}
+    >
+      {/* Blue triangle (top-left) */}
+      <path
+        d="M48 28.8 283.2 264 48 499.2A32 32 0 0 1 32 472V40A32 32 0 0 1 48 28.8Z"
+        fill="#00C4FF"
+      />
+      {/* Green triangle (bottom) */}
+      <path
+        d="M368 196l62.4 36.8L48 499.2A32 32 0 0 1 32 472L283.2 264Z"
+        fill="#00E676"
+      />
+      {/* Yellow triangle (top) */}
+      <path
+        d="M368 316l62.4-36.8L48 28.8A32 32 0 0 1 32 40L283.2 264Z"
+        fill="#FFCA28"
+      />
+      {/* Red triangle (right) */}
+      <path
+        d="M430.4 232.8L480 261.6a32 32 0 0 1 0 55.2l-49.6 28.8L283.2 264Z"
+        fill="#FF3D00"
+      />
+    </svg>
+  );
+}
+
 // ── Slide visuals ─────────────────────────────────────────────────────────────
 function SlideVisual({ type, active }) {
   const base = {
@@ -261,6 +296,7 @@ export default function MobileLanding({ onGetStarted, onLogin }) {
     if (dx < -50) next();
     else if (dx > 50) prev();
     touchStartX.current = null;
+    touchStartY.current = null;
   };
 
   const slide = SLIDES[current];
@@ -340,7 +376,7 @@ export default function MobileLanding({ onGetStarted, onLogin }) {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          padding: "52px 28px 0",
+          padding: "calc(16px + env(safe-area-inset-top, 24px)) 28px 0",
           flexShrink: 0,
           position: "relative",
           zIndex: 10,
@@ -366,6 +402,7 @@ export default function MobileLanding({ onGetStarted, onLogin }) {
           LOG IN
         </button>
       </div>
+      
 
       {/* ── Slide content ── */}
       <div
@@ -404,6 +441,66 @@ export default function MobileLanding({ onGetStarted, onLogin }) {
           ))}
         </div>
 
+        {/* Hero CTAs (first slide only) */}
+        {current === 0 ? (
+          <div
+            style={{
+              display: "flex",
+              gap: 12,
+              flexWrap: "wrap",
+              alignItems: "center",
+              marginTop: -10,
+              marginBottom: 16,
+            }}
+          >
+            {/* Primary CTA */}
+            <button
+              onClick={onGetStarted}
+              style={{
+                border: "none",
+                borderRadius: 14,
+                padding: "13px 20px",
+                background: "linear-gradient(160deg, #f07030 0%, #d44f10 55%, #b53d08 100%)",
+                color: "#fff",
+                fontFamily: "'Bebas Neue',Impact,sans-serif",
+                fontSize: 15,
+                letterSpacing: 1.8,
+                cursor: "pointer",
+                borderTop: "1px solid rgba(255,255,255,0.22)",
+                boxShadow: "0 4px 6px rgba(0,0,0,0.3), 0 10px 30px rgba(232,98,26,0.45), inset 0 1px 0 rgba(255,255,255,0.15)",
+                transition: "transform 0.15s, box-shadow 0.15s",
+              }}
+            >
+              Start Racing Free →
+            </button>
+
+            {/* Google Play badge — direct APK download */}
+            <a
+              href="/Trickole.apk"
+              download="Trickole.apk"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 10,
+                padding: "9px 16px",
+                borderRadius: 12,
+                background: "linear-gradient(160deg, #1c1c1e 0%, #111113 100%)",
+                border: "1px solid rgba(255,255,255,0.14)",
+                color: "#fff",
+                textDecoration: "none",
+                boxShadow: "0 4px 12px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.06)",
+                transition: "transform 0.15s",
+              }}
+            >
+              <GooglePlayIcon size={24} />
+              <div style={{ display: "flex", flexDirection: "column", lineHeight: 1.1 }}>
+                <span style={{ fontFamily: "Inter, sans-serif", fontSize: 9, letterSpacing: 0.5, color: "rgba(255,255,255,0.65)", fontWeight: 500 }}>GET IT ON</span>
+                <span style={{ fontFamily: "Inter, sans-serif", fontSize: 15, fontWeight: 700, color: "#fff", letterSpacing: 0.2 }}>Google Play</span>
+              </div>
+            </a>
+          </div>
+        ) : null}
+
         {/* Visual illustration */}
         <SlideVisual type={slide.visual} active={!animating} />
 
@@ -413,7 +510,7 @@ export default function MobileLanding({ onGetStarted, onLogin }) {
             fontFamily: "Inter, sans-serif",
             fontSize: 15,
             lineHeight: 1.65,
-            color: "fff",
+            color: "#fff",
             fontStyle: "italic",
             marginTop: 8,
             maxWidth: 300,
@@ -423,11 +520,14 @@ export default function MobileLanding({ onGetStarted, onLogin }) {
         </p>
       </div>
 
+          
+      
+
       {/* ── Bottom navigation ── */}
       <div
         style={{
           flexShrink: 0,
-          padding: "0 28px 48px",
+          padding: "0 28px calc(16px + env(safe-area-inset-bottom, 24px))",
           position: "relative",
           zIndex: 10,
         }}
@@ -468,15 +568,17 @@ export default function MobileLanding({ onGetStarted, onLogin }) {
               style={{
                 width: "100%",
                 padding: "17px 0",
-                background: "#e8621a",
+                background: "linear-gradient(160deg, #f07030 0%, #d44f10 55%, #b53d08 100%)",
                 border: "none",
-                borderRadius: 14,
+                borderTop: "1px solid rgba(255,255,255,0.2)",
+                borderRadius: 16,
                 fontFamily: "'Bebas Neue',Impact,sans-serif",
-                fontSize: 18,
-                letterSpacing: 2,
+                fontSize: 19,
+                letterSpacing: 2.2,
                 color: "#fff",
                 cursor: "pointer",
-                boxShadow: "0 8px 32px rgba(232,98,26,0.45)",
+                boxShadow: "0 4px 6px rgba(0,0,0,0.3), 0 12px 36px rgba(232,98,26,0.5), inset 0 1px 0 rgba(255,255,255,0.18)",
+                transition: "transform 0.15s, box-shadow 0.15s",
               }}
             >
               START NOW
@@ -486,14 +588,15 @@ export default function MobileLanding({ onGetStarted, onLogin }) {
               style={{
                 width: "100%",
                 padding: "15px 0",
-                background: "transparent",
-                border: "1.5px solid rgba(255,255,255,0.15)",
-                borderRadius: 14,
+                background: "rgba(255,255,255,0.05)",
+                border: "1px solid rgba(255,255,255,0.13)",
+                borderRadius: 16,
                 fontFamily: "'Bebas Neue',Impact,sans-serif",
                 fontSize: 16,
                 letterSpacing: 2,
-                color: "rgba(255,255,255,0.5)",
+                color: "rgba(255,255,255,0.55)",
                 cursor: "pointer",
+                transition: "background 0.15s",
               }}
             >
               I ALREADY HAVE AN ACCOUNT

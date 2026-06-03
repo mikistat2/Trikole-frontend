@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Trickole</string>
+    <string name="title_activity_main">Trickole</string>
+    <string name="package_name">com.trickole.app</string>
+    <string name="custom_url_scheme">com.trickole.app</string>
+    <string name="server_client_id">1070191817655-0onfqa0j24la2h1msjrfuiqhoa90lt9g.apps.googleusercontent.com</string>
+</resources>

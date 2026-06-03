@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { authApi } from '@/api';
 import { useAuthStore } from '@/store/auth.store';
 import { useGoogleLogin } from '@react-oauth/google';
+import { IS_APP } from '@/utils/platform';
 import BrandMark from '@/components/common/BrandMark';
 
 const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
@@ -23,7 +24,7 @@ export default function RegisterPage() {
     return err.response?.data?.error || err.message || fallback;
   }
 
-  const handleGoogleClick = useGoogleLogin({
+  const handleGoogleWebClick = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       setGoogleLoading(true);
       setError('');
@@ -41,6 +42,33 @@ export default function RegisterPage() {
       setError('Google sign-in failed or was cancelled');
     }
   });
+
+  const handleGoogleClick = async () => {
+    if (IS_APP) {
+      setGoogleLoading(true);
+      setError('');
+      try {
+        const { GoogleAuth } = await import('@codetrix-studio/capacitor-google-auth');
+        const user = await GoogleAuth.signIn();
+        const idToken = user?.authentication?.idToken;
+        if (!idToken) {
+          throw new Error('No ID token returned from Google Sign-In');
+        }
+        const res = await authApi.googleLogin(idToken);
+        setAuth(res.data.user, res.data.token);
+        navigate('/');
+      } catch (err) {
+        console.error('App Google Sign-in error:', err);
+        if (err.message !== 'Sign in cancelled' && err.error !== 'user_cancelled') {
+          setError(getAuthErrorMessage(err, 'Google sign-in failed'));
+        }
+      } finally {
+        setGoogleLoading(false);
+      }
+    } else {
+      handleGoogleWebClick();
+    }
+  };
 
   async function handleSubmit(e) {
     e.preventDefault();

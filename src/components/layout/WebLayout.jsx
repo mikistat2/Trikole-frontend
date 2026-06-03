@@ -113,7 +113,7 @@ export default function WebLayout() {
   return (
     <div className="relative flex min-h-screen bg-surface">
       {/* ─── Mobile header bar ─── */}
-      <header className="md:hidden fixed top-0 inset-x-0 z-50 h-14 glass-strong flex items-center px-4 safe-top">
+      <header className="md:hidden fixed top-0 inset-x-0 z-50 h-[calc(3.5rem+env(safe-area-inset-top,0px))] pt-[env(safe-area-inset-top,0px)] glass-strong flex items-center px-4">
         <button
           type="button"
           onClick={() => setMobileOpen(true)}
@@ -150,7 +150,7 @@ export default function WebLayout() {
         `}
       >
         {/* Brand */}
-        <div className="px-4 py-5 border-b border-surface-border flex items-center gap-3">
+        <div className="px-4 pb-5 pt-[calc(2.5rem+env(safe-area-inset-top,0px))] md:py-5 border-b border-surface-border flex items-center gap-3">
           <BrandMark
             imageSize={24}
             textSize={18}
@@ -212,7 +212,7 @@ export default function WebLayout() {
         </nav>
 
         {/* User section */}
-        <div className="p-3 border-t border-surface-border">
+        <div className="p-3 border-t border-surface-border safe-bottom">
           <div className={`flex items-center gap-3 py-2 ${collapsed ? 'md:justify-center md:px-0' : 'px-2'}`}>
             <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-brand/30 to-brand/10 flex items-center justify-center text-sm font-bold text-brand shrink-0 ring-1 ring-brand/20">
               {user?.username?.[0]?.toUpperCase()}
@@ -233,7 +233,7 @@ export default function WebLayout() {
       </aside>
 
       {/* ─── Main content ─── */}
-      <main className="flex-1 overflow-auto pt-14 md:pt-0">
+      <main className="flex-1 overflow-auto pt-[calc(3.5rem+env(safe-area-inset-top,0px))] md:pt-0 pb-[env(safe-area-inset-bottom,0px)]">
         <Outlet />
       </main>
     </div>

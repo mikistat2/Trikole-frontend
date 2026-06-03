@@ -54,7 +54,7 @@ export default function MovieDetailsModal({ movie, onClose, isSeries = false }) 
         onClick={onClose}
       />
       
-      <div className="fixed inset-4 sm:inset-auto sm:top-1/2 sm:left-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 sm:w-full sm:max-w-3xl z-50 bg-surface-raised rounded-2xl border border-surface-border overflow-hidden animate-slide-up flex flex-col sm:max-h-[85vh]">
+      <div className="fixed inset-x-4 bottom-4 top-[100px] sm:inset-auto sm:top-1/2 sm:left-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 sm:w-full sm:max-w-3xl z-50 bg-surface-raised rounded-2xl border border-surface-border overflow-hidden animate-slide-up flex flex-col sm:max-h-[85vh]">
         
         {/* Header/Backdrop or Trailer */}
         {trailer ? (

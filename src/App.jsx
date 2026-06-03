@@ -30,6 +30,9 @@ import AppProfilePage from '@/pages/app/AppProfilePage';
 import AiSugPage from '@/pages/shared/AiSugPage';
 import LandingPage from '@/pages/LandingPage';
 
+import { useState } from 'react';
+import AnimatedSplash from '@/components/common/AnimatedSplash';
+
 function RequireAuth({ children }) {
   const token = useAuthStore(s => s.token);
   return token ? children : <Navigate to="/login" replace />;
@@ -47,6 +50,7 @@ function PublicRootApp() {
 
 export default function App() {
   const theme = useThemeStore(s => s.theme);
+  const [showSplash, setShowSplash] = useState(true);
 
   useEffect(() => {
     if (theme === 'light') {
@@ -58,39 +62,23 @@ export default function App() {
     }
   }, [theme]);
 
-  if (IS_APP) {
-    return (
+  return (
+    <>
+      {showSplash && <AnimatedSplash onComplete={() => setShowSplash(false)} />}
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/" element={<PublicRootApp />} />
-        <Route element={<RequireAuth><AppLayout /></RequireAuth>}>
-          <Route path="home" element={<AppHomePage />} />
-          <Route path="browse" element={<AppBrowsePage />} />
+        <Route path="/" element={<PublicRootWeb />} />
+        <Route element={<RequireAuth><WebLayout /></RequireAuth>}>
+          <Route path="browse" element={<WebBrowsePage />} />
+          <Route path="watchlist" element={<WebWatchlistPage />} />
           <Route path="ai-sug" element={<AiSugPage />} />
-          <Route path="watchlist" element={<AppWatchlistPage />} />
-          <Route path="leaderboard" element={<AppLeaderboardPage />} />
-          <Route path="profile" element={<AppProfilePage />} />
+          <Route path="leaderboard" element={<WebLeaderboardPage />} />
+          <Route path="rooms" element={<WebRoomsPage />} />
+          <Route path="profile" element={<WebProfilePage />} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-    );
-  }
-
-  return (
-    <Routes>
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/register" element={<RegisterPage />} />
-      <Route path="/" element={<PublicRootWeb />} />
-      <Route element={<RequireAuth><WebLayout /></RequireAuth>}>
-        <Route path="browse" element={<WebBrowsePage />} />
-        <Route path="watchlist" element={<WebWatchlistPage />} />
-        <Route path="ai-sug" element={<AiSugPage />} />
-        <Route path="leaderboard" element={<WebLeaderboardPage />} />
-        <Route path="rooms" element={<WebRoomsPage />} />
-        <Route path="profile" element={<WebProfilePage />} />
-      </Route>
-      <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
+    </>
   );
 }

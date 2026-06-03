@@ -13,7 +13,11 @@ function normalizeProxyTarget(rawUrl) {
 }
 
 export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), '');
+  // For app mode, also load .env.app on top of .env
+  const env = {
+    ...loadEnv(mode, process.cwd(), ''),
+    ...(mode === 'app' ? loadEnv('app', process.cwd(), '') : {}),
+  };
   const isApp = mode === 'app';
 
   return {

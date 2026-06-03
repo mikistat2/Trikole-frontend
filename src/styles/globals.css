@@ -12,8 +12,6 @@
   body {
     background-color: #0F1117;
     color: #F0F0F5;
-    padding-top: env(safe-area-inset-top);
-    padding-bottom: env(safe-area-inset-bottom);
   }
 
   /* Custom scrollbar for dark theme */
