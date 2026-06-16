@@ -6,6 +6,7 @@ const STATES = {
   LOADING: 'loading',
   QUIZ: 'quiz',
   RESULT: 'result',
+  ALREADY_VERIFIED: 'already_verified',
 };
 
 export default function VerifyModal({ movie, roomId, onClose }) {
@@ -39,19 +40,24 @@ export default function VerifyModal({ movie, roomId, onClose }) {
           tmdb_id: movie.tmdb_id,
           title: movie.title,
           year: movie.release_year,
+          season_number: movie.season_number ?? null,
         });
 
         setQuizData(res.data);
         setState(STATES.QUIZ);
       } catch (e) {
-        setError(
-          friendlyError(e.response?.data?.error || e.message)
-        );
+        if (e.response?.status === 409 || e.response?.data?.error === 'already_verified') {
+          setState(STATES.ALREADY_VERIFIED);
+        } else {
+          setError(
+            friendlyError(e.response?.data?.error || e.message)
+          );
+        }
       }
     }
 
     generateQuiz();
-  }, [movie.tmdb_id, movie.title, movie.release_year]);
+  }, [movie.tmdb_id, movie.title, movie.release_year, movie.season_number]);
 
   async function handleSelect(idx) {
     if (selected !== null) return;
@@ -159,6 +165,27 @@ export default function VerifyModal({ movie, roomId, onClose }) {
         {error && (
           <div className="px-4 py-3 bg-red-500/10 border border-red-500/20 rounded-xl text-sm text-red-400 text-center mb-4 animate-fade-in">
             {error}
+          </div>
+        )}
+
+        {/* Already Verified */}
+        {state === STATES.ALREADY_VERIFIED && (
+          <div className="text-center py-6 animate-scale-in">
+            <div className="text-5xl mb-4">✅</div>
+            <h3 className="font-bold text-lg text-text-primary mb-1">
+              Already verified!
+            </h3>
+            <p className="text-sm text-text-secondary mb-6">
+              You've already verified your watch for{' '}
+              <span className="font-medium text-text-primary">{movie.title}</span>
+              {movie.season_number != null ? ` (Season ${movie.season_number})` : ''}.
+            </p>
+            <button
+              onClick={onClose}
+              className="btn-primary max-w-[200px] mx-auto"
+            >
+              Got it
+            </button>
           </div>
         )}
 
